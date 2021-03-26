@@ -10,10 +10,10 @@ void question_1()
 {
     int ans = 1, n;
     int* arr;
-    scanf("%d", &n);
+    scanf_s("%d", &n);
     arr = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++)
-        scanf("%d", &arr[i]);
+        scanf_s("%d", &arr[i]);
     ///////  Enter solution here ///////
 
     ////////////////////////////////////
@@ -27,7 +27,7 @@ void question_2()
 
     unsigned long long ans = 2;
     int n;
-    scanf("%d", &n);
+    scanf_s("%d", &n);
     ///////  Enter solution here ///////
 
     ////////////////////////////////////
@@ -39,8 +39,8 @@ void question_3()
     int ans = 3;
     int string_length;
     char string[100] = { 0 };
-    scanf("%d", &string_length);
-    scanf("%s", string);
+    scanf_s("%d", &string_length);
+    scanf_s("%s", string);
     ///////  Enter solution here ///////
 
     ////////////////////////////////////
@@ -51,7 +51,7 @@ void question_3()
 int main(int argc, char** argv)
 {
     int question;
-    scanf("%d", &question);
+    scanf_s("%d", &question);
     if (question == 1)
         question_1();
     else if (question == 2)
