@@ -11,7 +11,7 @@
 
 int find_maximum(int a[], int n, int s)// s = the SubArray starting index , n = SubArray ending index+1, O(n-s)
 {
-    int c, index = 0;
+    int c, index = s;
 
     for (c = s+1; c < n; c++)
         if (a[c] > a[index])
@@ -31,7 +31,7 @@ int find_minimum(int a[], int n)//  n = array length, O(n)
 }
 void question_1()
 {
-    int ans = 0, n, num_i, num_s;
+    int ans = 0, n;
     int* arr;
     scanf_s("%d", &n);
     arr = (int*)malloc(sizeof(int) * n);
@@ -41,17 +41,17 @@ void question_1()
     // i+1= filter size, j= filtered_arr index, s= starting SubArray index
     int* filtered_arr;
     ans = arr[find_minimum(arr, n)];// filter size = 1
-    for (int i = 1; i < n; i++)
-        num_i = i;
-        filtered_arr = (int*)malloc(sizeof(int) * (n-num_i));
-        for (int s = 0; s < (n - num_i); s++)
-            num_s = s;
-            filtered_arr[num_s] = arr[find_maximum(arr, num_s+num_i+1,num_s)];
-        ans = ans + find_minimum(filtered_arr,n-num_i);
+    for (int i = 1; i < n; i++) {
+        filtered_arr = (int*)malloc(sizeof(int) * (n - i));
+        for (int s = 0; s < (n - i); s++) {
+            filtered_arr[s] = arr[find_maximum(arr, s + i + 1, s)];
+        }
+        ans = ans + filtered_arr[find_minimum(filtered_arr, n - i)];
+        free(filtered_arr);
+    }
     ////////////////////////////////////
     printf("%d\n", ans);
     free(arr);
-    free(filtered_arr);
 }
 
 
