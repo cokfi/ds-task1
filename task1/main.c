@@ -6,10 +6,13 @@
 #include <time.h>
 
 // this code implements three tasks:
-// Task 1.
-// input: array legnth(n) ,array of n integers.
+// Task 1:
+// input: array legnth - n ,array of n integers.
 // the program finds it's Max Pooling with stride=1 and size = 1:n (result of n arrays)
-// output: sum of minimun numbers, (each max pooling result return array, each array return a minimum number) 
+// output: sum of minimun numbers, (each max pooling result return array, each array return a minimum number)
+//Task 2:
+//The sum of all jobs performed reduced by the minimum job existed when removed
+// Task 3:
 
 int find_maximum(int a[], int n, int s)// s = the SubArray starting index , n = SubArray ending index+1, O(n-s)
 {
