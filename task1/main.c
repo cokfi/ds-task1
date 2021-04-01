@@ -3,22 +3,23 @@
 //#---include <iostream> //for c++
 #include <stdio.h>
 #include <stdlib.h>
-// this code is emplementing three tasks:
+// this code implements three tasks:
 // Task 1 
 // input: array legnth(n) ,array of n integers.
 // the program finds it's Max Pooling with stride=1 and size = 1:n (result of n arrays)
-// output: sum of minimun numbers, (each max pooling result return array, each array return a minimum number)  
-int find_maximum(int a[], int n)
+// output: sum of minimun numbers, (each max pooling result return array, each array return a minimum number) 
+
+int find_maximum(int a[], int n, int s)// s = the SubArray starting index , n = SubArray ending index+1, O(n-s)
 {
     int c, index = 0;
 
-    for (c = 1; c < n; c++)
+    for (c = s+1; c < n; c++)
         if (a[c] > a[index])
             index = c;
 
     return index;
 }
-int find_minimum(int a[], int n) 
+int find_minimum(int a[], int n)//  n = array length, O(n)
 {
     int c, index = 0;
 
@@ -30,18 +31,27 @@ int find_minimum(int a[], int n)
 }
 void question_1()
 {
-    int ans = 1, n;
+    int ans = 0, n, num_i, num_s;
     int* arr;
     scanf_s("%d", &n);
     arr = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++)
         scanf_s("%d", &arr[i]);
     ///////  Enter solution here ///////
-    for (int i=0; i<n;i++)
-
+    // i+1= filter size, j= filtered_arr index, s= starting SubArray index
+    int* filtered_arr;
+    ans = arr[find_minimum(arr, n)];// filter size = 1
+    for (int i = 1; i < n; i++)
+        num_i = i;
+        filtered_arr = (int*)malloc(sizeof(int) * (n-num_i));
+        for (int s = 0; s < (n - num_i); s++)
+            num_s = s;
+            filtered_arr[num_s] = arr[find_maximum(arr, num_s+num_i+1,num_s)];
+        ans = ans + find_minimum(filtered_arr,n-num_i);
     ////////////////////////////////////
     printf("%d\n", ans);
     free(arr);
+    free(filtered_arr);
 }
 
 
