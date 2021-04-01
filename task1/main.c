@@ -3,6 +3,8 @@
 //#---include <iostream> //for c++
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
 // this code implements three tasks:
 // Task 1 
 // input: array legnth(n) ,array of n integers.
@@ -37,6 +39,11 @@ void question_1()
     arr = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++)
         scanf_s("%d", &arr[i]);
+    //program time
+    clock_t start, end;
+    double time_taken;
+    start = clock();
+    //
     ///////  Enter solution here ///////
     // i+1= filter size, j= filtered_arr index, s= starting SubArray index
     int* filtered_arr;
@@ -52,6 +59,11 @@ void question_1()
     ////////////////////////////////////
     printf("%d\n", ans);
     free(arr);
+    //measure time
+    end = clock();
+    time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
+    printf("fun() took %f seconds to execute \n", time_taken);
+    //
 }
 
 
