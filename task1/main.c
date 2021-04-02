@@ -6,10 +6,13 @@
 #include <time.h>
 
 // this code implements three tasks:
-// Task 1 
-// input: array legnth(n) ,array of n integers.
+// Task 1:
+// input: array legnth - n ,array of n integers.
 // the program finds it's Max Pooling with stride=1 and size = 1:n (result of n arrays)
-// output: sum of minimun numbers, (each max pooling result return array, each array return a minimum number) 
+// output: sum of minimun numbers, (each max pooling result return array, each array return a minimum number)
+// Task 2:
+// The sum of all jobs performed reduced by the minimum job existed when removed from queue
+// Task 3:
 
 int find_maximum(int a[], int n, int s)// s = the SubArray starting index , n = SubArray ending index+1, O(n-s)
 {
@@ -21,11 +24,11 @@ int find_maximum(int a[], int n, int s)// s = the SubArray starting index , n = 
 
     return index;
 }
-int find_minimum(int a[], int n)//  n = array length, O(n)
+int find_minimum(int a[], int n, int s)// s = the SubArray starting index , n = SubArray ending index+1, O(n-s)
 {
     int c, index = 0;
 
-    for (c = 1; c < n; c++)
+    for (c = s+1; c < n; c++)
         if (a[c] < a[index])
             index = c;
 
@@ -39,24 +42,22 @@ void question_1()
     arr = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++)
         scanf_s("%d", &arr[i]);
-    //program time
+    //program time settings
     clock_t start, end;
     double time_taken;
     start = clock();
     //
-    ///////  Enter solution here ///////
     // i+1= filter size, j= filtered_arr index, s= starting SubArray index
     int* filtered_arr;
-    ans = arr[find_minimum(arr, n)];// filter size = 1
+    ans = arr[find_minimum(arr, n,0)];// filter size = 1
     for (int i = 1; i < n; i++) {
         filtered_arr = (int*)malloc(sizeof(int) * (n - i));
         for (int s = 0; s < (n - i); s++) {
-            filtered_arr[s] = arr[find_maximum(arr, s + i + 1, s)];
+            filtered_arr[s] = arr[find_maximum(arr, s + i + 1, s)];// Max Pooling
         }
-        ans = ans + filtered_arr[find_minimum(filtered_arr, n - i)];
+        ans = ans + filtered_arr[find_minimum(filtered_arr, n - i,0)];
         free(filtered_arr);
     }
-    ////////////////////////////////////
     printf("%d\n", ans);
     free(arr);
     //measure time
@@ -70,12 +71,30 @@ void question_1()
 void question_2()
 {
 
-    unsigned long long ans = 2;
-    int n;
+    unsigned long long ans = 0;
+    int n, q_index = 0, min_index=0;// q_index is the index for the next spot available in queue 
+    int removal_q_index = 0,current_job;// removal_q_index is the starting index of the current queue 
     scanf_s("%d", &n);
-    ///////  Enter solution here ///////
-
-    ////////////////////////////////////
+    int* queue;
+    queue = (int*)malloc(sizeof(int) * n);
+    for (int i = 0; i < n; i++) {
+        scanf_s("%d", &current_job);
+        if (current_job > 0) { // add to queue
+            queue[q_index] = current_job;
+            if ( queue[q_index]<=queue[min_index]){
+                min_index = q_index;
+            }
+            q_index += 1;
+        }
+        else if ((current_job == 0) && (q_index>removal_q_index)){ // remove from queue
+            ans += queue[removal_q_index] - queue[min_index];
+            removal_q_index += 1;
+            if (min_index <= (removal_q_index-1)) {
+                min_index = find_minimum(queue, q_index, removal_q_index);
+            }
+   
+        }
+    }
     printf("%llu\n", ans);
 }
 
