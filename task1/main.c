@@ -24,11 +24,11 @@ int find_maximum(int a[], int n, int s)// s = the SubArray starting index , n = 
 
     return index;
 }
-int find_minimum(int a[], int n)//  n = array length, O(n)
+int find_minimum(int a[], int n, int s)//  n = array length, O(n)
 {
     int c, index = 0;
 
-    for (c = 1; c < n; c++)
+    for (c = s+1; c < n; c++)
         if (a[c] < a[index])
             index = c;
 
@@ -50,13 +50,13 @@ void question_1()
     ///////  Enter solution here ///////
     // i+1= filter size, j= filtered_arr index, s= starting SubArray index
     int* filtered_arr;
-    ans = arr[find_minimum(arr, n)];// filter size = 1
+    ans = arr[find_minimum(arr, n,0)];// filter size = 1
     for (int i = 1; i < n; i++) {
         filtered_arr = (int*)malloc(sizeof(int) * (n - i));
         for (int s = 0; s < (n - i); s++) {
             filtered_arr[s] = arr[find_maximum(arr, s + i + 1, s)];
         }
-        ans = ans + filtered_arr[find_minimum(filtered_arr, n - i)];
+        ans = ans + filtered_arr[find_minimum(filtered_arr, n - i,0)];
         free(filtered_arr);
     }
     ////////////////////////////////////
