@@ -71,8 +71,8 @@ void question_1()
 void question_2()
 {
 
-    unsigned long long ans = 2;
-    int n, q_index = 0, min_index;// q_index is the index for the next spot available in queue 
+    unsigned long long ans = 0;
+    int n, q_index = 0, min_index=0;// q_index is the index for the next spot available in queue 
     int removal_q_index = 0,current_job;// removal_q_index is the starting index of the current queue 
     scanf_s("%d", &n);
     int* queue;
@@ -81,12 +81,12 @@ void question_2()
         scanf_s("%d", &current_job);
         if (current_job > 0) { // add to queue
             queue[q_index] = current_job;
-            if ( queue[q_index]<queue[min_index]){
+            if ( queue[q_index]<=queue[min_index]){
                 min_index = q_index;
             }
             q_index += 1;
         }
-        else if ((current_job == 0) && (q_index>0)){ // remove from queue
+        else if ((current_job == 0) && (q_index>removal_q_index)){ // remove from queue
             ans += queue[removal_q_index] - queue[min_index];
             removal_q_index += 1;
             if (min_index <= (removal_q_index-1)) {
