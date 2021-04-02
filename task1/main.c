@@ -11,7 +11,7 @@
 // the program finds it's Max Pooling with stride=1 and size = 1:n (result of n arrays)
 // output: sum of minimun numbers, (each max pooling result return array, each array return a minimum number)
 //Task 2:
-//The sum of all jobs performed reduced by the minimum job existed when removed
+//The sum of all jobs performed reduced by the minimum job existed when removed from queue
 // Task 3:
 
 int find_maximum(int a[], int n, int s)// s = the SubArray starting index , n = SubArray ending index+1, O(n-s)
@@ -42,24 +42,22 @@ void question_1()
     arr = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++)
         scanf_s("%d", &arr[i]);
-    //program time
+    //program time settings
     clock_t start, end;
     double time_taken;
     start = clock();
     //
-    ///////  Enter solution here ///////
     // i+1= filter size, j= filtered_arr index, s= starting SubArray index
     int* filtered_arr;
     ans = arr[find_minimum(arr, n,0)];// filter size = 1
     for (int i = 1; i < n; i++) {
         filtered_arr = (int*)malloc(sizeof(int) * (n - i));
         for (int s = 0; s < (n - i); s++) {
-            filtered_arr[s] = arr[find_maximum(arr, s + i + 1, s)];
+            filtered_arr[s] = arr[find_maximum(arr, s + i + 1, s)];// Max Pooling
         }
         ans = ans + filtered_arr[find_minimum(filtered_arr, n - i,0)];
         free(filtered_arr);
     }
-    ////////////////////////////////////
     printf("%d\n", ans);
     free(arr);
     //measure time
@@ -74,11 +72,22 @@ void question_2()
 {
 
     unsigned long long ans = 2;
-    int n;
+    int n, q_index=0, min_index=0, relative_cost = 0;
     scanf_s("%d", &n);
-    ///////  Enter solution here ///////
-
-    ////////////////////////////////////
+    int* job_array;
+    int* queue;
+    job_array = (int*)malloc(sizeof(int) * n);
+    queue = (int*)malloc(sizeof(int) * n);
+    for (int i = 0; i < n; i++) {
+        scanf_s("%d", &job_array[i]);
+        if (job_array[i] > 0) {
+            queue[q_index] = job_array[i];
+            q_index += 1;
+        }
+        else if (job_array[i] == 0){
+            
+        }
+    }
     printf("%llu\n", ans);
 }
 
