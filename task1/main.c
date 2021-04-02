@@ -24,7 +24,7 @@ int find_maximum(int a[], int n, int s)// s = the SubArray starting index , n = 
 
     return index;
 }
-int find_minimum(int a[], int n, int s)//  n = array length, O(n)
+int find_minimum(int a[], int n, int s)// s = the SubArray starting index , n = SubArray ending index+1, O(n-s)
 {
     int c, index = 0;
 
@@ -72,20 +72,27 @@ void question_2()
 {
 
     unsigned long long ans = 2;
-    int n, q_index=0, min_index=0, relative_cost = 0;
+    int n, q_index = 0, min_index;// q_index is the index for the next spot available in queue 
+    int removal_q_index = 0,current_job;// removal_q_index is the starting index of the current queue 
     scanf_s("%d", &n);
-    int* job_array;
     int* queue;
-    job_array = (int*)malloc(sizeof(int) * n);
     queue = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++) {
-        scanf_s("%d", &job_array[i]);
-        if (job_array[i] > 0) {
-            queue[q_index] = job_array[i];
+        scanf_s("%d", &current_job);
+        if (current_job > 0) { // add to queue
+            queue[q_index] = current_job;
+            if ( queue[q_index]<queue[min_index]){
+                min_index = q_index;
+            }
             q_index += 1;
         }
-        else if (job_array[i] == 0){
-            
+        else if ((current_job == 0) && (q_index>0)){ // remove from queue
+            ans += queue[removal_q_index] - queue[min_index];
+            removal_q_index += 1;
+            if (min_index <= (removal_q_index-1)) {
+                min_index = find_minimum(queue, q_index, removal_q_index);
+            }
+   
         }
     }
     printf("%llu\n", ans);
