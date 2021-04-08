@@ -39,10 +39,10 @@ void question_1()
 {
     int ans = 0, n;
     int* arr;
-    scanf_s("%d", &n);
+    scanf("%d", &n);
     arr = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++)
-        scanf_s("%d", &arr[i]);
+        scanf("%d", &arr[i]);
     //program time settings
     clock_t start, end;
     double time_taken;
@@ -75,11 +75,11 @@ void question_2()
     unsigned long long ans = 0;
     int n, q_index = 0, min_index=0;// q_index is the index for the next spot available in queue 
     int removal_q_index = 0,current_job;// removal_q_index is the starting index of the current queue 
-    scanf_s("%d", &n);
+    scanf("%d", &n);
     int* queue;
     queue = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++) {
-        scanf_s("%d", &current_job);
+        scanf("%d", &current_job);
         if (current_job > 0) { // add to queue
             queue[q_index] = current_job;
             if ( queue[q_index]<=queue[min_index]){
@@ -104,8 +104,8 @@ void question_3()
     int ans = 3;
     int string_length;
     char string[100] = { 0 };
-    scanf_s("%d", &string_length);
-    scanf_s("%s", string);
+    scanf("%d", &string_length);
+    scanf("%s", string);
     ///////  Enter solution here ///////
 
     ////////////////////////////////////
@@ -118,7 +118,7 @@ int main(int argc, char** argv)
 {
     int question;
     printf("enter question number\n");
-    scanf_s("%d", &question);
+    scanf("%d", &question);
     if (question == 1)
         question_1();
     else if (question == 2)
