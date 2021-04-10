@@ -37,12 +37,14 @@ int find_minimum(int a[], int n, int s)// s = the SubArray starting index , n = 
 }
 void question_1()
 {
-    int ans = 0, n;
+    int ans = 0, n,temp_index=0,starting_SubArray,ending_index,max_index,min_index;
     int* arr;
     scanf("%d", &n);
     arr = (int*)malloc(sizeof(int) * n);
-    for (int i = 0; i < n; i++)
-        scanf("%d", &arr[i]);
+    for (int i = 0; i < n; i++) {
+        //scanf("%d", &arr[i]);
+        arr[i] = 1;
+    }
     //program time settings
     clock_t start, end;
     double time_taken;
@@ -50,13 +52,33 @@ void question_1()
     //
     // i+1= filter size, j= filtered_arr index, s= starting SubArray index
     int* filtered_arr;
-    ans = arr[find_minimum(arr, n,0)];// filter size = 1
+    temp_index = 0;
+    for (int c = 1; c < n; c++) {  //find maximum
+        if (arr[c] > arr[temp_index])
+            temp_index = c;
+    }
+    ans = arr[temp_index];// filter size = 1
+    //measure time
+    end = clock();
+    time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
+    printf("fun() took %f seconds to execute \n", time_taken);
     for (int i = 1; i < n; i++) {
         filtered_arr = (int*)malloc(sizeof(int) * (n - i));
-        for (int s = 0; s < (n - i); s++) {
-            filtered_arr[s] = arr[find_maximum(arr, s + i + 1, s)];// Max Pooling
+        for (int s = 0; s < (n - i); s++) {// s = staring index of subarray
+            temp_index = s;
+            ending_index = s + i;
+            for (int c = s + 1; c < ending_index + 1; c++) {  //find maximum
+                if (arr[c] > arr[temp_index])
+                    temp_index = c;
+            }
+            filtered_arr[s] = arr[temp_index];// Max Pooling
         }
-        ans = ans + filtered_arr[find_minimum(filtered_arr, n - i,0)];
+        temp_index = 0;
+        for (int c = 1; c < n - i; c++) {// find minimum
+            if (filtered_arr[c] < filtered_arr[temp_index])
+                temp_index = c;
+        }
+        ans = ans + filtered_arr[temp_index];
         free(filtered_arr);
     }
     printf("%d\n", ans);
@@ -77,9 +99,13 @@ void question_2()
     int removal_q_index = 0,current_job;// removal_q_index is the starting index of the current queue 
     scanf("%d", &n);
     int* queue;
+    //program time settings
+    clock_t start, end;
+    double time_taken;
+    start = clock();
     queue = (int*)malloc(sizeof(int) * n);
-    for (int i = 0; i < n; i++) {
-        scanf("%d", &current_job);
+    for (int i = 0; i < 4000000; i++) {
+        current_job = i % 100;
         if (current_job > 0) { // add to queue
             queue[q_index] = current_job;
             if ( queue[q_index]<=queue[min_index]){
@@ -96,7 +122,30 @@ void question_2()
    
         }
     }
+    for (int i = 0; i < 1000000; i++) {
+        current_job = 0;
+        if (current_job > 0) { // add to queue
+            queue[q_index] = current_job;
+            if (queue[q_index] <= queue[min_index]) {
+                min_index = q_index;
+            }
+            q_index += 1;
+        }
+        else if ((current_job == 0) && (q_index > removal_q_index)) { // remove from queue
+            ans += queue[removal_q_index] - queue[min_index];
+            removal_q_index += 1;
+            if (min_index <= (removal_q_index - 1)) {
+                min_index = find_minimum(queue, q_index, removal_q_index);
+            }
+
+        }
+    }
     printf("%llu\n", ans);
+    //measure time
+    end = clock();
+    time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
+    printf("fun() took %f seconds to execute \n", time_taken);
+    //
 }
 
 void question_3()
