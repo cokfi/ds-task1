@@ -37,12 +37,14 @@ int find_minimum(int a[], int n, int s)// s = the SubArray starting index , n = 
 }
 void question_1()
 {
-    int ans = 0, n;
+    int ans = 0, n,minimum_of_maxP,temp_index;
     int* arr;
     scanf("%d", &n);
     arr = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++)
-        scanf("%d", &arr[i]);
+       scanf("%d", &arr[i]);
+    //for (int i = 0; i < n; i++)
+    //    arr[i] = 1000;
     //program time settings
     clock_t start, end;
     double time_taken;
@@ -52,12 +54,14 @@ void question_1()
     int* filtered_arr;
     ans = arr[find_minimum(arr, n,0)];// filter size = 1
     for (int i = 1; i < n; i++) {
-        filtered_arr = (int*)malloc(sizeof(int) * (n - i));
-        for (int s = 0; s < (n - i); s++) {
-            filtered_arr[s] = arr[find_maximum(arr, s + i + 1, s)];// Max Pooling
+        //filtered_arr = (int*)malloc(sizeof(int) * (n - i));
+        minimum_of_maxP = arr[find_maximum(arr, i + 1, 0)];// Max Pooling
+        for (int s = 1; s < (n - i); s++) {
+            temp_index = find_maximum(arr, s + i + 1, s);// Max Pooling
+            if (arr[temp_index] < minimum_of_maxP)
+                minimum_of_maxP = arr[temp_index];
         }
-        ans = ans + filtered_arr[find_minimum(filtered_arr, n - i,0)];
-        free(filtered_arr);
+        ans = ans + minimum_of_maxP;
     }
     printf("%d\n", ans);
     free(arr);
