@@ -37,7 +37,7 @@ int find_minimum(int a[], int n, int s)// s = the SubArray starting index , n = 
 }
 void question_1()
 {
-    int ans = 0, n,minimum_of_maxP,temp_index;
+    int ans = 0, n,minimum_of_maxP,temp_index,global_max_index;
     int* arr;
     scanf("%d", &n);
     arr = (int*)malloc(sizeof(int) * n);
@@ -52,7 +52,8 @@ void question_1()
     //
     // i+1= filter size, j= filtered_arr index, s= starting SubArray index
     int* filtered_arr;
-    ans = arr[find_minimum(arr, n,0)];// filter size = 1
+    global_max_index = find_minimum(arr, n, 0);
+    ans = arr[global_max_index];// filter size = 1
     for (int i = 1; i < n; i++) {
         //filtered_arr = (int*)malloc(sizeof(int) * (n - i));
         minimum_of_maxP = arr[find_maximum(arr, i + 1, 0)];// Max Pooling
