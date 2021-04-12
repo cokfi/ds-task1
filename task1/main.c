@@ -40,6 +40,10 @@ void question_1() {
     step1: Find indexes of next greater and previous greater for every element.
     step2: Find the smallest element for each filter size and save them in array(that won't fill the entire array).
     step 3: fill untouched filters and print the sum of step2's array.
+
+    step 1 operations = a*n (the "while loop" inside "for loop" wont surpass O(n) because counter can add only 1(max) each "for" iteration) 
+    step 2 operations = b*n ; step 3 operations = c*n
+    #####hence, question_1() O notation = O(n)######
     */
     int ans = 0, n, minimum_of_maxP, i;
     int* arr;
@@ -121,6 +125,12 @@ void question_1() {
 
 
 void question_2()
+/* worst case cenerio = first n/2 upgrowing elements(modulo 100K) then n/2 zeros
+[a*n/2 (first for loop) ]*[b (assignments) +c (find minimum operations)] = O(n)*[b+c] = O(n) 
+considering the best case when the minimum value is on the last element of the array,
+the function find_minimum will take n operations but will be needed only once so in every case we will get O(n).
+######question_2 O notations = O(n)###### 
+*/
 {
 
     unsigned long long ans = 0;
