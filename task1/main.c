@@ -1,6 +1,5 @@
 #include <limits.h>
 #include <math.h>
-//#---include <iostream> //for c++
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
