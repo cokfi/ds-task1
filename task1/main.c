@@ -20,8 +20,8 @@ void question_1() {
     step2: Find the smallest element for each filter size and save them in array(that won't fill the entire array).
     step 3: fill untouched filters and print the sum of step2's array.
 
-    step 1 operations = a*n (the "while loop" inside "for loop" wont surpass O(n) because counter can add only 1(max) each "for" iteration) 
-    step 2 operations = b*n ; step 3 operations = c*n
+    step 1 operations = a*n (the "while loop" inside "for loop" wont surpass O(n) because counter can add only 1(maximum) each "for" iteration) 
+    step 2 operations = b*n , step 3 operations = c*n , total operations = [a+b+c]*n
     #####O notation = O(n)######
     */
     int ans = 0, n, minimum_of_maxP, i;
@@ -97,10 +97,11 @@ void question_1() {
 
 
 void question_2()
-/* worst case cenerio = [1, 100K, 100K, 0, 0, 0, 1, 100K, 100K, 0, 0, 0, 1 ...]
-[n (first for loop) ]*[b (assignments) +*k('while loop operations)] = O(n)*[b+k] = O(k*n) 
+/* worst case cenerio = [1, 100K, 100K, 0, 0, 0, 1, 100K, 100K, 0, 0, 0, 1 ...] 
+(3 jobs in loop because if there were less members in queue  there won't occur any calculation insde the while loop)
+a*n+[n/6 (first for loop) ]*[b (assignments) +*k('while loop operations)] = (a+((b+k)/6)*n = O(k*n) 
 (k is bounded to 100K and statistically will be much less) 
-######O notations = O(k*n), (in our task we can write O(n), because k Smaller than n in magnitude)###### 
+######O notations = O(k*n), (in our task **WE CAN WRITE** O(n), because k Smaller than n in magnitude)###### 
 */
 {
 
