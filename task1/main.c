@@ -110,9 +110,6 @@ a*n+[n/6 (first for loop) ]*[b (assignments) +*k('while loop operations)] = (a+(
     int n, q_index = 0, min_index=0;// q_index is the index for the next spot available in queue 
     int removal_q_index = 0,current_job,min_value;// removal_q_index is the starting index of the current queue 
     scanf("%d", &n);
-    clock_t start, end;
-    double time_taken;
-    start = clock();
     int* queue;
     int* value_to_index;
     value_to_index = (int*)malloc(sizeof(int) * (101000));
