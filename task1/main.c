@@ -43,7 +43,7 @@ void question_1() {
 
     step 1 operations = a*n (the "while loop" inside "for loop" wont surpass O(n) because counter can add only 1(max) each "for" iteration) 
     step 2 operations = b*n ; step 3 operations = c*n
-    #####hence, question_1() O notation = O(n)######
+    #####O notation = O(n)######
     */
     int ans = 0, n, minimum_of_maxP, i;
     int* arr;
@@ -121,7 +121,7 @@ void question_2()
 /* worst case cenerio = [1, 100K, 100K, 0, 0, 0, 1, 100K, 100K, 0, 0, 0, 1 ...]
 [n (first for loop) ]*[b (assignments) +*k('while loop operations)] = O(n)*[b+k] = O(k*n) 
 (k is bounded to 100K and statistically will be much less) 
-######question_2 O notations = O(k*n), (in our task we can write O(n), because k Smaller than n in magnitude)###### 
+######O notations = O(k*n), (in our task we can write O(n), because k Smaller than n in magnitude)###### 
 */
 {
 
@@ -175,13 +175,54 @@ void question_2()
 }
 
 void question_3()
+/* O notation calculations:
+for loop inside for loop operations =n^2 , single for loop operations = max 4*n, last for loop inside for loop =max c*n^2
+total operations <= n^2 +4*n +c*n^2  
+###### O notations = O(n^2)######
+*/
 {
-    int ans = 3;
-    int string_length;
+    int ans = 1;
+    int string_length,rows,cols,offset;
     char string[100] = { 0 };
     scanf("%d", &string_length);
     scanf("%s", string);
     ///////  Enter solution here ///////
+    rows = string_length;
+    cols = string_length;
+    int* pali_matrix = (int*)malloc(rows * cols * sizeof(int)); // offset = i * cols + j,  corresponds to pali_matrix[i, j]
+    for (int i = 0; i < rows; i++) { //initialize matrix, each cell indication wheter substing i:j is a Palindrom
+        for (int j = 0; j < cols; j++) {
+            if (i == j) {
+                pali_matrix[i * cols + j] = 1; // size 1 palindroms
+            }
+            else {
+                pali_matrix[i * cols + j] = 0;
+            }
+        }
+    }
+    int starting_index = 0;
+    for (int i = 0; i < string_length - 1; ++i) {//size =2 palindroms
+        if (string[i] == string[i + 1]) {
+            offset = i * cols + (i + 1);// i+1 = column, i = row
+            pali_matrix[offset] = 1;
+            ans = 2;
+        }
+    }
+    
+    int j; // column's index
+    for (int sub_length = 3; sub_length <= string_length; sub_length++) { // size = 3 and longer palindroms
+        for (int i = 0; i < string_length - sub_length + 1; ++i) {
+            j = i + sub_length - 1;
+
+            offset = (i + 1) * rows + (j - 1); // i+1 - row, j-1 column
+            if (pali_matrix[offset]==1 && string[i] == string[j]) {
+                pali_matrix[i*rows+j] = 1;
+                if (sub_length > ans) {
+                    ans = sub_length;
+                }
+            }
+        }
+    }
 
     ////////////////////////////////////
     printf("%d\n", ans);
