@@ -12,6 +12,8 @@
  Task 2:
  The sum of all jobs performed reduced by the minimum job existed when removed from queue
  Task 3:
+ input: string legnth - n ,array of n chars.
+ output: the length of the longest subarray Palindrome.
  */
 
 void question_1() {
