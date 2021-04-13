@@ -47,28 +47,67 @@ void question_1() {
     */
     int ans = 0, n, minimum_of_maxP, i;
     int* arr;
-    scanf_s("%d", &n);
+    int* greater_right; // each cell contain the index of the greater element on right, =n if non exist
+    int* greater_left; // each cell contain the index of the greater element on left, =-1 if non exist
+    scanf("%d", &n);
     arr = (int*)malloc(sizeof(int) * n);
     greater_right = (int*)malloc(sizeof(int) * (n + 1));
     greater_left = (int*)malloc(sizeof(int) * (n + 1));
 
     for (int i = 0; i < n; i++)
-        scanf_s("%d", &arr[i]);
-    //program time settings
-    clock_t start, end;
-    double time_taken;
-    start = clock();
-    //
-    // i+1= filter size, j= filtered_arr index, s= starting SubArray index
-    int* filtered_arr;
-    ans = arr[find_minimum(arr, n,0)];// filter size = 1
-    for (int i = 1; i < n; i++) {
-        filtered_arr = (int*)malloc(sizeof(int) * (n - i));
-        for (int s = 0; s < (n - i); s++) {
-            filtered_arr[s] = arr[find_maximum(arr, s + i + 1, s)];// Max Pooling
+        scanf("%d", &arr[i]);
+// step 1:
+    for (i = n - 1; i >= 0; i--) {
+        greater_left[i] = -1; // init values- no greater on right
+        greater_right[i] = n; // init values- no greater on left
+    }
+    int* index_array; // former greater element indexes array
+    index_array = (int*)malloc(sizeof(int) * (n + 1));
+    for (int i = 0; i <= n; i++)
+        index_array[i] = 0; // cell 0 is unused
+    int counter = 0; // index_array counter of current element 
+    for (i = 0; i < n; i++)// left elements
+    {
+        while (counter != 0 && arr[index_array[counter]] <= arr[i]) {
+            counter = counter - 1;
         }
-        ans = ans + filtered_arr[find_minimum(filtered_arr, n - i,0)];
-        free(filtered_arr);
+
+        if (counter != 0)
+            greater_left[i] = index_array[counter];
+
+        counter += 1;
+        index_array[counter] = i;
+    }
+    counter = 0; // reset counter for right elements
+    for (i = n - 1; i >= 0; i--) {
+        while (counter != 0 && arr[index_array[counter]] <= arr[i]) {
+            counter = counter - 1;
+        }
+
+        if (counter != 0)
+            greater_right[i] = index_array[counter];
+
+        counter += 1;
+        index_array[counter] = i;
+    }
+// step 2:
+    int* min_of_MaxPooling;
+    int filter_size;
+    min_of_MaxPooling = (int*)malloc(sizeof(int) * (n + 1));
+    for (int i = 0; i <= n; i++)
+        min_of_MaxPooling[i] = 1001;// a cell for each filter size , cell 0 is unused
+    for (int i = 0; i < n; i++) {
+        filter_size = greater_right[i] - greater_left[i] - 1; // biggest filter size that will return arr[i] 
+        if (min_of_MaxPooling[filter_size] > arr[i])
+            min_of_MaxPooling[filter_size] = arr[i]; // save the min of all max pooling of the same filter size
+    }
+// step 3:
+    for (int i = n - 1; i >= 1; i--) {
+        if (min_of_MaxPooling[i] > min_of_MaxPooling[i + 1])
+            min_of_MaxPooling[i] = min_of_MaxPooling[i + 1];//fill empty cells,smaller filter size will have smaller/equal value
+    }
+    for (int i = 1; i <= n; i++) {
+        ans = ans + min_of_MaxPooling[i];
     }
     printf("%d\n", ans);
     free(arr);
@@ -88,14 +127,20 @@ void question_2()
 
     unsigned long long ans = 0;
     int n, q_index = 0, min_index=0;// q_index is the index for the next spot available in queue 
-    int removal_q_index = 0,current_job;// removal_q_index is the starting index of the current queue 
-    scanf_s("%d", &n);
+    int removal_q_index = 0,current_job,min_value;// removal_q_index is the starting index of the current queue 
+    scanf("%d", &n);
+    clock_t start, end;
+    double time_taken;
+    start = clock();
     int* queue;
     int* value_to_index;
     value_to_index = (int*)malloc(sizeof(int) * (101000));
     queue = (int*)malloc(sizeof(int) * n);
-    for (int i = 0; i < n; i++) {
-        scanf_s("%d", &current_job);
+    for (int i = 0; i <= 100000; i++)//initialize value_to_index
+        value_to_index[i] = 0;
+
+    for (int i = 0; i < n; i++) { // queue flow
+        scanf("%d", &current_job);
         if (current_job > 0) { // add to queue
             queue[q_index] = current_job;
             if ( queue[q_index]<=queue[min_index]){ // save min index
@@ -134,8 +179,8 @@ void question_3()
     int ans = 3;
     int string_length;
     char string[100] = { 0 };
-    scanf_s("%d", &string_length);
-    scanf_s("%s", string);
+    scanf("%d", &string_length);
+    scanf("%s", string);
     ///////  Enter solution here ///////
 
     ////////////////////////////////////
@@ -147,8 +192,7 @@ void question_3()
 int main(int argc, char** argv)
 {
     int question;
-    printf("enter question number\n");
-    scanf_s("%d", &question);
+    scanf("%d", &question);
     if (question == 1)
         question_1();
     else if (question == 2)
