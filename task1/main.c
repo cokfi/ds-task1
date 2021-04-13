@@ -194,9 +194,9 @@ total operations <= n^2 +4*n +c*n^2
         for (int i = 0; i < string_length - sub_length + 1; ++i) {
             j = i + sub_length - 1;
 
-            offset = (i + 1) * rows + (j - 1); // i+1 - row, j-1 column
+            offset = (i + 1) * cols + (j - 1); // i+1 - row, j-1 column
             if (pali_matrix[offset]==1 && string[i] == string[j]) {
-                pali_matrix[i*rows+j] = 1;
+                pali_matrix[i*cols+j] = 1;
                 if (sub_length > ans) {
                     ans = sub_length;
                 }
