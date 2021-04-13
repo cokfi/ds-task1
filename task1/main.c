@@ -56,9 +56,6 @@ void question_1() {
 
     for (int i = 0; i < n; i++)
         scanf("%d", &arr[i]);
-    clock_t start, end;
-    double time_taken;
-    start = clock();
 // step 1:
     for (i = n - 1; i >= 0; i--) {
         greater_left[i] = -1; // init values- no greater on right
@@ -117,10 +114,6 @@ void question_1() {
     free(index_array);
     free(greater_left);
     free(greater_right);
-    //measure time
-    end = clock();
-    time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
-    printf("fun() took %f seconds to execute \n", time_taken);
 }
 
 
@@ -128,7 +121,7 @@ void question_2()
 /* worst case cenerio = [1, 100K, 100K, 0, 0, 0, 1, 100K, 100K, 0, 0, 0, 1 ...]
 [n (first for loop) ]*[b (assignments) +*k('while loop operations)] = O(n)*[b+k] = O(k*n) 
 (k is bounded to 100K and statistically will be much less) 
-######question_2 O notations = O(k*n), (in our task we can write O(n), because k Smaller in magnitude from n)###### 
+######question_2 O notations = O(k*n), (in our task we can write O(n), because k Smaller than n in magnitude)###### 
 */
 {
 
@@ -140,45 +133,28 @@ void question_2()
     double time_taken;
     start = clock();
     int* queue;
-//    int* build_worstcase;
     int* value_to_index;
     value_to_index = (int*)malloc(sizeof(int) * (101000));
     queue = (int*)malloc(sizeof(int) * n);
-/*    build_worstcase = (int*)malloc(sizeof(int) * n);
-    for (int i = 0; i < (n / 6); i ++) {
-        build_worstcase[4*i] = 1;
-        build_worstcase[4*i + 1] = 100000;
-        build_worstcase[4 * i + 2] = 99999;
-        build_worstcase[4*i + 3] = 0;
-        build_worstcase[4 * i + 4] = 0;
-        build_worstcase[4 * i + 5] = 0;
-
-    }
-    for (int i = n % 6; i > 0; i--)
-        build_worstcase[n - i] = 0;*/
-/*    for (int i = 100000; i < 3000000; i++)
-        build_worstcase[i] = 100000;
-    for (int i = 3000000; i < n; i++)
-        build_worstcase[i] = 0;*/
     for (int i = 0; i <= 100000; i++)//initialize value_to_index
         value_to_index[i] = 0;
-    for (int i = 0; i < n; i++) {
+
+    for (int i = 0; i < n; i++) { // queue flow
         scanf("%d", &current_job);
-        //current_job = build_worstcase[i];
         if (current_job > 0) { // add to queue
             queue[q_index] = current_job;
-            if ( queue[q_index]<=queue[min_index]){
+            if ( queue[q_index]<=queue[min_index]){ // save min index
                 min_index = q_index;
             }
             q_index += 1;
-            value_to_index[current_job] = q_index;
+            value_to_index[current_job] = q_index; 
         }
         else if ((current_job == 0) && (q_index>removal_q_index)){ // remove from queue
             ans += queue[removal_q_index] - queue[min_index];
-            if (value_to_index[queue[removal_q_index]] == removal_q_index)
+            if (value_to_index[queue[removal_q_index]] == removal_q_index) // remove from val2idx
                 value_to_index[queue[removal_q_index]] = 0;
             removal_q_index += 1;
-            if (min_index <= (removal_q_index-1)) {
+            if (min_index <= (removal_q_index-1)) { // set a new min_index
                 min_value = queue[min_index];
                 while (value_to_index[min_value] == 0 &&q_index>removal_q_index) {
                     min_value += 1;
@@ -195,12 +171,7 @@ void question_2()
     }
     printf("%llu\n", ans);
     free(queue);
-    //free(build_worstcase);
     free(value_to_index);
-    //measure time
-    end = clock();
-    time_taken = ((double)(end - start)) / CLOCKS_PER_SEC;
-    printf("fun() took %f seconds to execute \n", time_taken);
 }
 
 void question_3()
@@ -221,7 +192,6 @@ void question_3()
 int main(int argc, char** argv)
 {
     int question;
-    printf("enter question number\n");
     scanf("%d", &question);
     if (question == 1)
         question_1();
