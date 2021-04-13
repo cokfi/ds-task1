@@ -15,26 +15,6 @@
  Task 3:
  */
 
-int find_maximum(int a[], int n, int s)// s = the SubArray starting index , n = SubArray ending index+1, O(n-s)
-{
-    int c, index = s;
-
-    for (c = s+1; c < n; c++)
-        if (a[c] > a[index])
-            index = c;
-
-    return index;
-}
-int find_minimum(int a[], int n, int s)// s = the SubArray starting index , n = SubArray ending index+1, O(n-s)
-{
-    int c, index = 0;
-
-    for (c = s+1; c < n; c++)
-        if (a[c] < a[index])
-            index = c;
-
-    return index;
-}
 void question_1() {
     /* 3 steps algorithm:
     step1: Find indexes of next greater and previous greater for every element.
