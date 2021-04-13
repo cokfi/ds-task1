@@ -107,12 +107,12 @@ a*n+[n/6 (first for loop) ]*[b (assignments) +*k('while loop operations)] = (a+(
 {
 
     unsigned long long ans = 0;
-    int n, q_index = 0, min_index=0;// q_index is the index for the next spot available in queue 
-    int removal_q_index = 0,current_job,min_value;// removal_q_index is the starting index of the current queue 
+    int n, q_index = 1, min_index=1;// q_index is the index for the next spot available in queue 
+    int removal_q_index = 1,current_job,min_value;// removal_q_index is the starting index of the current queue 
     scanf("%d", &n);
     int* queue;
     int* value_to_index;
-    value_to_index = (int*)malloc(sizeof(int) * (101000));
+    value_to_index = (int*)malloc(sizeof(int) * (100001));
     queue = (int*)malloc(sizeof(int) * n);
     for (int i = 0; i <= 100000; i++)//initialize value_to_index
         value_to_index[i] = 0;
@@ -124,8 +124,8 @@ a*n+[n/6 (first for loop) ]*[b (assignments) +*k('while loop operations)] = (a+(
             if ( queue[q_index]<=queue[min_index]){ // save min index
                 min_index = q_index;
             }
-            q_index += 1;
-            value_to_index[current_job] = q_index; 
+            value_to_index[current_job] = q_index;
+            q_index += 1; 
         }
         else if ((current_job == 0) && (q_index>removal_q_index)){ // remove from queue
             ans += queue[removal_q_index] - queue[min_index];
