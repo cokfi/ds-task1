@@ -113,7 +113,7 @@ a*n+[n/6 (first for loop) ]*[b (assignments) +*k('while loop operations)] = (a+(
     int* queue;
     int* value_to_index;
     value_to_index = (int*)malloc(sizeof(int) * (100001));
-    queue = (int*)malloc(sizeof(int) * n);
+    queue = (int*)malloc(sizeof(int) * (n+1));
     for (int i = 0; i <= 100000; i++)//initialize value_to_index
         value_to_index[i] = 0;
 
